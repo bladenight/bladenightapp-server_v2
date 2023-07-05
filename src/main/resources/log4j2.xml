@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" monitorInterval="30">
+
+    <Properties>
+        <!--for Colors look at:
+        https://logging.apache.org/log4j/2.x/log4j-core/apidocs/org/apache/logging/log4j/core/pattern/AnsiEscape.html -->
+        <Property name="LOG_PATTERN">%highlight{%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %-5p (%c{1}:%L) -
+            %m%n%throwable}{FATAL=white, ERROR=red, WARN=yellow, INFO=FG_GREEN, DEBUG=FG_BRIGHT_MAGENTA, TRACE=Black}
+        </Property>
+        <Property name="APP_LOG_ROOT">Log</Property>
+    </Properties>
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <RollingRandomAccessFile name="appLog" fileName="${APP_LOG_ROOT}/bladenightapp-server_v2.log"
+                                 filePattern="${APP_LOG_ROOT}/bladenightapp-server_v2-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="serverLog" fileName="${APP_LOG_ROOT}/bladenightapp-server.log"
+                                 filePattern="${APP_LOG_ROOT}/bladenightapp-server-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="wampLog" fileName="${APP_LOG_ROOT}/bladenightapp-wamp.log"
+                                 filePattern="${APP_LOG_ROOT}/bladenightapp-wamp-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="commonLog" fileName="${APP_LOG_ROOT}/bladenightapp-common.log"
+                                 filePattern="${APP_LOG_ROOT}/bladenightapp-common-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="jettyutillog" fileName="${APP_LOG_ROOT}/bladenightapp-server_v2-jetty.log"
+                                 filePattern="${APP_LOG_ROOT}/bladenightapp-server_v2-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="springLog" fileName="${APP_LOG_ROOT}/springLog_bladenightapp-server_v2-jetty.log"
+                                 filePattern="${APP_LOG_ROOT}/springLog_bladenightapp-server_v2-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Logger name="app.bladenight" additivity="false">
+            <AppenderRef ref="appLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="app.bladenight.server" additivity="false">
+            <AppenderRef ref="serverLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="app.bladenight.wampv2" additivity="false">
+            <AppenderRef ref="wampLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="app.bladenight.common" additivity="false">
+            <AppenderRef ref="commonLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="org.eclipse.jetty.util.log" additivity="false">
+            <AppenderRef ref="jettyutillog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="org.eclipse.springframework" additivity="false">
+            <AppenderRef ref="springLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Root level="warn">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="appLog"/>
+        </Root>
+
+    </Loggers>
+
+</Configuration>

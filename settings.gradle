@@ -1,0 +1,8 @@
+rootProject.name = 'bladenightapp-server_v2'
+
+include ":bladenightapp-common_v2"
+project(':bladenightapp-common_v2').projectDir = new File(settingsDir, '../bladenightapp-common_v2')
+
+include ":bladenightapp-wamp_v2"
+project(':bladenightapp-wamp_v2').projectDir = new File(settingsDir, '../bladenightapp-wamp_v2')
+

@@ -1,0 +1,93 @@
+// Call task "shadowJar" to create fat JAR
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+group = 'app.bladenight'
+version = '0.9.1-devLH'
+
+description = """Bladenight server"""
+
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+tasks.withType(JavaCompile) {
+    configure(options) {
+        options.compilerArgs << '-Xlint:deprecation'
+        options.encoding = 'UTF-8'
+    }
+}
+
+repositories {
+    mavenCentral { url "https://maven.geotoolkit.org/" }
+     mavenCentral { url "https://repo.maven.apache.org/maven2" }
+    google()
+}
+
+dependencies {
+
+    implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
+    implementation group: 'joda-time', name: 'joda-time', version: '2.12.2'
+    implementation group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.5.3'
+    implementation 'org.eclipse.jetty.websocket:websocket-api:9.4.51.v20230217'
+    implementation 'org.eclipse.jetty.websocket:websocket-server:9.4.51.v20230217'
+    implementation 'org.eclipse.jetty.websocket:websocket-servlet:9.4.51.v20230217'
+    implementation 'org.eclipse.jetty:jetty-server:9.4.51.v20230217'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.20.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.20.0'
+    implementation 'dev.loqo71la:haversine:1.0'
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    implementation project(':bladenightapp-common_v2')
+    implementation project(':bladenightapp-wamp_v2')
+    implementation group: 'org.slf4j', name: 'slf4j-reload4j', version: '2.0.6'
+
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'app.bladenight.server.App'
+    }
+}
+
+task doRelease {
+    doLast {
+        def buildGradle = new File("build.gradle")
+        def matcher = (buildGradle.text =~ /version = '([\d]+)\.([\d]+)-SNAPSHOT'/)
+        def major = Integer.parseInt(matcher[0][1])
+        def minor = Integer.parseInt(matcher[0][2])
+
+        def oldVersion = "${major}.${minor}"
+        def newVersion = "${major}.${minor + 1}"
+
+        ant.replace(file: buildGradle, token: "version = '${oldVersion}-SNAPSHOT'", value: "version = '${oldVersion}'")
+
+        exec {
+            commandLine "git", "commit", "-a", "-m", "v${oldVersion}"
+        }
+        exec {
+            commandLine "git", "tag", "v${oldVersion}"
+        }
+        exec {
+            commandLine "./gradlew", "shadowJar"
+        }
+
+        ant.replace(file: buildGradle, token: "version = '${oldVersion}'", value: "version = '${newVersion}-SNAPSHOT'")
+
+        exec {
+            commandLine "git", "commit", "-a", "-m", "Started v${newVersion}"
+        }
+
+        exec {
+            commandLine "git", "push"
+        }
+
+        exec {
+            commandLine "git", "push", "--tags"
+        }
+    }
+}
+
