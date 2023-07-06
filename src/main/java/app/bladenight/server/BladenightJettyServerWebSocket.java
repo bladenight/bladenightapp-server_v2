@@ -5,20 +5,16 @@ import app.bladenight.wampv2.server.WampBnServerImpl;
 import app.bladenight.wampv2.server.exceptions.BadArgumentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 
 import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 /***
  * Proxy between a specific WebSocket session on the server side and the internal WampServer.
  */
 @WebSocket
 public class BladenightJettyServerWebSocket {
-    private Session session;
-    private RemoteEndpoint remote;
     protected WampBnServer wampBnServer;
     private static final Logger logger = LogManager.getLogger(BladenightJettyServerWebSocket.class);
 
@@ -32,16 +28,14 @@ public class BladenightJettyServerWebSocket {
 
     @OnWebSocketConnect
     public void onOpen(Session session) {
-        this.session = session;
-        this.remote = this.session.getRemote();
         session = wampBnServer.registerSession(session, null);
-        logger.trace(String.format("WebSocket onOpen Connect: {0} Protocol: {1}", session.getRemoteAddress(), session.getProtocolVersion()));
+        logger.debug(String.format("WebSocket onOpen Connect: %s Protocol: %s", session.getRemoteAddress(), session.getProtocolVersion()));
     }
 
     @OnWebSocketClose
     public void onClose(Session session, int closeCode, String reason) {
         wampBnServer.closeSession(session, closeCode, reason);
-        logger.trace("WAMP session closed: " + "Reason: " + reason + " Session:" + session);
+        logger.debug("WAMP session closed. Reason: " + reason + " Session:" + session.getRemoteAddress());
     }
 
     @OnWebSocketMessage
@@ -51,7 +45,7 @@ public class BladenightJettyServerWebSocket {
             wampBnServer.handleIncomingString(session, data);
 
         } catch (IOException e) {
-            logger.warn("Got IOexception in onMessage:" + data, e);
+            logger.warn("Got IOException in onMessage:" + data, e);
         } catch (BadArgumentException e) {
             logger.warn("Got BadArgument on message:" + data);
         }
@@ -60,10 +54,10 @@ public class BladenightJettyServerWebSocket {
     @OnWebSocketError
     public void onWebSocketError(Session session, Throwable error) {
 
-        if (error instanceof java.util.concurrent.TimeoutException) {
-            logger.trace("Websocket timeout " + error.getLocalizedMessage());
-        }  if (error instanceof org.eclipse.jetty.io.EofException) {
-            logger.trace("Broken Pipe " + error.getLocalizedMessage());
+        if (error instanceof org.eclipse.jetty.websocket.api.CloseException) {
+            logger.debug("Websocket timeout " + session.getRemoteAddress() + " Error: " + error.getLocalizedMessage());
+        } else if (error instanceof org.eclipse.jetty.io.EofException) {
+            logger.debug("Broken Pipe " + error.getLocalizedMessage());
         } else {
             logger.error("Websocket error", error);
         }
