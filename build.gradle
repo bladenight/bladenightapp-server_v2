@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'app.bladenight'
-version = '0.9.1-devLH'
+version = '0.9.2-devLH'
 
 description = """Bladenight server"""
 

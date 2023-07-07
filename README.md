@@ -32,5 +32,71 @@ Ideas for Applicationupdates
 - don't allow long time differences on train length/ from to head and train - head etas
 - calculate time by trainlength
 - seems using wrong speeddatas to update etas
-- renew wamp to newer version
+
+Special Config to control parts of remote App in imagesAndLinks.json
+```json
+[
+  {
+    "key": "mainSponsorLogo",
+    "image": "https://bladenight.app/main_sponsor.png",
+    "link": "",
+    "text": ""
+  },
+  {
+    "key": "secondLogo",
+    "image": "https://bladenight.app/skatemunich.png",
+    "link": "https://skatemunich.de",
+    "text": ""
+  },
+  {
+    "key": "startPoint",
+    "image": "",
+     "link": "https://bladenight-muenchen.de/blade-guards/#anmelden",
+     "text": "Schwanthalerhöhe\nMünchen\n(Deutsches Verkehrsmuseum)\nBladeguards gesucht"
+  },
+  {
+    "key": "bladeguardLink",
+    "image": "",
+    "link": "https://bladenight-muenchen.de/blade-guards/#anmelden",
+    "text": "Bladeguard"
+  },
+  {
+    "key": "defaultLatitude",
+    "image": "",
+    "link": "",
+    "text": "48.13250913196827"
+  },
+  {
+    "key": "defaultLongitude",
+    "image": "",
+    "link": "",
+    "text": "11.543837661522703"
+  },
+  {
+    "key": "androidPlayStoreLink",
+    "image": "",
+    "link": "https://play.google.com/store/apps/details?id=de.bladenight.bladenight_app_flutter",
+    "text": "BladenightApp Android"
+  },
+  {
+    "key": "iOSAppStoreLink",
+    "image": "",
+    "link": "https://apps.apple.com/de/app/bladenight-vorab/id1629988473",
+    "text": "BladenightApp iOS"
+  },
+  {
+    "key": "liveMapLink",
+    "image": "",
+    "link": "https://bladenight-muenchen.de/bladenight-live-karte/",
+    "text": "Live Karte"
+  },
+  {
+      "key": "openStreetMap",
+      "image": "",
+      "link": "aHR0cHM6Ly97c30udGlsZS5vcGVuc3RyZWV0bWFwLm9yZy97en0ve3h9L3t5fS5wbmc= ", <-- base64encoded link to osm tileserver remove mark-->
+      "text": ""
+    }
+
+]
+```
 
