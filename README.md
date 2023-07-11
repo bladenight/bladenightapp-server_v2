@@ -37,13 +37,13 @@ Special Config to control parts of remote App in imagesAndLinks.json
 ```json
 [
   {
-    "key": "mainSponsorLogo",
+    "key": "mainSponsorLogo", <--set default 1st logo-->
     "image": "https://bladenight.app/main_sponsor.png",
     "link": "",
     "text": ""
   },
   {
-    "key": "secondLogo",
+    "key": "secondLogo", <--set default 2nd logo-->
     "image": "https://bladenight.app/skatemunich.png",
     "link": "https://skatemunich.de",
     "text": ""
@@ -51,26 +51,26 @@ Special Config to control parts of remote App in imagesAndLinks.json
   {
     "key": "startPoint",
     "image": "",
-     "link": "https://bladenight-muenchen.de/blade-guards/#anmelden",
-     "text": "Schwanthalerhöhe\nMünchen\n(Deutsches Verkehrsmuseum)\nBladeguards gesucht"
+     "link": "https://bladenight-muenchen.de/blade-guards/#anmelden", <--set default link if you tap on startpoint at homepage-->
+     "text": "Schwanthalerhöhe\nMünchen\n(Deutsches Verkehrsmuseum)\nBladeguards gesucht" <--set default text-->
   },
   {
     "key": "bladeguardLink",
     "image": "",
-    "link": "https://bladenight-muenchen.de/blade-guards/#anmelden",
+    "link": "https://bladenight-muenchen.de/blade-guards/#anmelden", <--set default link for bladeguard-->
     "text": "Bladeguard"
   },
   {
     "key": "defaultLatitude",
     "image": "",
     "link": "",
-    "text": "48.13250913196827"
+    "text": "48.13250913196827" <--set default app latitude-->
   },
   {
-    "key": "defaultLongitude",
+    "key": "defaultLongitude", 
     "image": "",
     "link": "",
-    "text": "11.543837661522703"
+    "text": "11.543837661522703" <--set default app longitude-->
   },
   {
     "key": "androidPlayStoreLink",
@@ -91,11 +91,11 @@ Special Config to control parts of remote App in imagesAndLinks.json
     "text": "Live Karte"
   },
   {
-      "key": "openStreetMap",
-      "image": "",
-      "link": "aHR0cHM6Ly97c30udGlsZS5vcGVuc3RyZWV0bWFwLm9yZy97en0ve3h9L3t5fS5wbmc= ", <-- base64encoded link to osm tileserver remove mark-->
-      "text": ""
-    }
+    "key": "openStreetMap",
+    "image": "", <--no function-->
+    "link": "aHR0cHM6Ly97c30udGlsZS5vcGVuc3RyZWV0bWFwLm9yZy97en0ve3h9L3t5fS5wbmc= ", <-- base64encoded link to osm tileserver remove mark-->
+    "text": "" <--on force openstreetmap on / off - force openstreetmap off / "" remove link and let the user choose-->
+  }
 
 ]
 ```
